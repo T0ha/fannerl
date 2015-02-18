@@ -8,7 +8,7 @@
 
 -module(fannerl).
 
--export([create_standard/1, train_on_file/5, get_mse/1, save/2,
+-export([create_standard/1, create_from_file/1, train_on_file/5, get_mse/1, save/2,
 	 set_activation_function_hidden/2, set_activation_function_output/2,
 	 get_activation_function/3, print_parameters/1, print_connections/1,
 	 run/2, test/3, randomize_weights/3, train_on_data/5, create_train/1,
@@ -47,6 +47,9 @@ init() ->
     end.
 
 create_standard(_) ->
+    exit(nif_library_not_loaded).
+
+create_from_file(_) ->
     exit(nif_library_not_loaded).
 
 train_on_file(_,_,_,_,_) ->
