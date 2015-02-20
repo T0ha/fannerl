@@ -29,3 +29,7 @@ failing_segment_fault_test() ->
     fann_sigmoid_stepwise = fannerl:get_activation_function(Fann, 1, 1),
     ok = fannerl:set_activation_function(Fann, fann_sigmoid, 1, 1),
     fann_sigmoid = fannerl:get_activation_function(Fann, 1, 1).
+
+train_on_file_test() ->
+    Fann = fannerl:create_standard({2,2,1}),
+    fannerl:train_on_file(Fann, "../examples/xor.data", 100000, 10, 0.001).
