@@ -32,4 +32,15 @@ failing_segment_fault_test() ->
 
 train_on_file_test() ->
     Fann = fannerl:create_standard({2,2,1}),
-    fannerl:train_on_file(Fann, "../examples/xor.data", 100000, 10, 0.001).
+    {ok, Ref} = fannerl:train_on_file(Fann, "../examples/xor.data", 100000, 10, 0.001).
+
+
+create_train_load_test() ->
+    Fann = fannerl:create_standard({2,2,1}),
+    fannerl:train_on_file(Fann, "../examples/xor.data", 100000, 10, 0.001),
+    MSE = fannerl:get_mse(Fann),
+    Out = fannerl:run(Fann, {-1, 1}),
+    io:format("{-1,1} = ~p~n", [Out]),
+    fannerl:save(Fann, "xor.net"),
+    FannTest = fannerl:create_from_file("xor.net"),
+    Out = fannerl:run(FannTest, {-1, 1}).

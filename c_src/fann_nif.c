@@ -277,19 +277,17 @@ static ERL_NIF_TERM train_on_file_nif(ErlNifEnv* env, int argc,
   thread_data->resource = resource;
   thread_data->file_name = malloc((string_length+1)*sizeof(char));
   strcpy(thread_data->file_name, file_name); 
-  //free(file_name);
+  free(file_name);
   thread_data->max_epochs = max_epochs;
   thread_data->epochs_between_reports = epochs_between_reports;
   thread_data->desired_error = desired_error;
   thread_data->to_pid = self;
   thread_data->reference = reference;
-  //fann_train_on_file(resource->ann, file_name,  max_epochs, epochs_between_reports, desired_error);
   enif_thread_create("train_file_thread", &(thread_tid->tid), 
     	     thread_run_fann_train_on_file, thread_data, NULL);
   
   enif_thread_join(thread_tid->tid, NULL);
   return enif_make_tuple2(env, enif_make_atom(env,"ok"), reference);
-  //return enif_make_atom(env, "ok");
 }
 
 static ERL_NIF_TERM get_mse_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
